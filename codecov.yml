@@ -1,0 +1,10 @@
+codecov:
+  token: f0bab57e-9e1b-4bd6-af31-69c5419c2b0a
+
+comment:
+  layout: "reach, diff, flags, files"
+  behavior: default
+  require_changes: false
+  require_base: no        # [yes :: must have a base report to post]
+  require_head: yes       # [yes :: must have a head report to post]
+  branches: null
