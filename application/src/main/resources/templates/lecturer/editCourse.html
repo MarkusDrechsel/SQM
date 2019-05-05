@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="lecturer/index">
+<body>
+
+<main layout:fragment="main">
+    <div class="container">
+        <h3 th:text="${subject.name}">Courses</h3>
+
+        <input id="tags" class="typeahead form-control" type="text" placeholder="Tags+" />
+
+        <form name="courseForm" class="row"
+              th:object="${addCourseForm}"
+              th:action="@{editCourse(courseId=__${addCourseForm.course.id}__)}"
+              method="post">
+
+            <input id="courseIdForTags" name="courseIdForTags" th:value="${course.id}" type="hidden"/>
+
+            <div th:replace="lecturer/lecturerFragments:: addAndEdit"></div>
+        </form>
+
+    </div>
+
+</main>
+
+
+</body>
+
+</html>

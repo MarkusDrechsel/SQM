@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="admin/index">
+<body>
+
+<main layout:fragment="main">
+
+    <div class="container">
+
+        <!-- Header with create button -->
+        <div class="row">
+            <div class="col s12">
+                <h1 th:text="#{admin.nav.subjects}"></h1>
+            </div>
+
+            <div class="col s12">
+                <a class="right amber btn hide-on-small-only modal-trigger" href="#create-subject-modal"
+                   th:text="#{admin.subjects.create}"></a>
+            </div>
+        </div>
+
+        <!-- Search input -->
+        <nav>
+            <div class="nav-wrapper white black-text">
+                <form action="/admin/subjects">
+                    <a
+                            th:unless="${#strings.isEmpty(search)}"
+                            th:text="#{search.clear}"
+                            th:href="@{/admin/subjects}"
+                            class="btn btn-flat search-exit"
+                    ></a>
+
+                    <div class="input-field">
+                         <input
+                             id="search"
+                             name="search"
+                             th:placeholder="#{admin.subjects.search}"
+                             th:value="${search}"
+                             type="search"
+                        />
+                        <label for="search"><i class="material-icons black-text">search</i></label>
+                    </div>
+                </form>
+            </div>
+        </nav>
+
+
+        <div>
+
+            <div
+                class="section-separator"
+                th:if="${#lists.isEmpty(subjects)}"
+                th:text="#{admin.subjects.noSubjectFound}"
+            ></div>
+
+            <ul class="collection z-depth-1" th:unless="${#lists.isEmpty(subjects)}">
+
+                <li class="collection-item" th:each="subject : ${subjects}">
+                    <div>
+                        <div class="title">
+                            <a class="teal-text" href="#"
+                               data-th-href="@{'/admin/subjects/{id}'(id=${subject.id})}"
+                               th:text="${subject.name}"></a>
+                            <a th:href="'#delete-confirm-' + ${subject.id}" style="margin-left:10px;" class="secondary-content modal-trigger"><i
+                                    class="material-icons tooltipped" th:attr="data-tooltip=#{admin.subjects.remove}">delete</i></a>
+                            <a href="#" data-th-href="@{'/admin/subjects/{id}'(id=${subject.id})}" class="secondary-content"><i
+                                    class="material-icons tooltipped" th:attr="data-tooltip=#{admin.subjects.edit}">edit</i></a>
+                        </div>
+                        <div th:text="${subject.ects} + ' ECTS'"></div>
+                    </div>
+
+                    <!-- Delete confirmation modal -->
+                    <div th:id="'delete-confirm-' + ${subject.id}" class="modal small">
+                        <div class="modal-content">
+                            <h3 th:text="#{admin.subject.disable.modal.header}"></h3>
+                            <p th:text="#{admin.subject.disable.modal.content(${subject.name})}"></p>
+                        </div>
+                        <div class="modal-footer">
+                            <form th:id="'deleteSubjectForm-' + ${subject.id}" th:action="@{'/admin/subjects/remove/{id}'(id=${subject.id})}" method="post">
+                                <a class="modal-action modal-close btn" th:text="#{remove}" th:onclick="'$(\'#deleteSubjectForm-' + ${subject.id} + '\').submit()'"></a>
+                                <a class="modal-action modal-close waves-effect btn-flat" th:text="#{cancel}"></a>
+                            </form>
+                        </div>
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <!-- Pagination -->
+        <div th:if="${page.totalPages > 1}">
+            <ul class="pagination center">
+
+                <!-- Disable the chevron when the first page is active -->
+                <li th:if="${page.isFirst()}" class="disabled">
+                    <a href="#"><i class="material-icons disabled">chevron_left</i></a>
+                </li>
+
+                <li th:if="${not page.isFirst()}">
+                    <a th:href="@{/admin/subjects/page/__${page.getNumber()}__?search=__${search}__}">
+                        <i class="material-icons">chevron_left</i>
+                    </a>
+                </li>
+
+
+                <!-- Before the active page 3 numbers are shown.
+                     If the active page is >= 4, the "1" page is not shown anymore
+                     that's why we show integrationtest here
+                -->
+                <li th:if="${page.getNumber() >= 4}" class="waves-effect">
+                    <a th:href="@{/admin/subjects?search=__${search}__}">1</a>
+                </li>
+
+                <!-- After the 1, there are hidden pages, that's why we show a "…" -->
+                <li th:if="${page.getNumber() > 4}">
+                    <a>…</a>
+                </li>
+
+
+                <!-- Show the 3 numbers before the active page -->
+                <li th:if="${page.getNumber() >= 3}" class="waves-effect">
+                    <a th:text="${page.getNumber()-2}"
+                       th:href="@{/admin/subjects/page/__${page.getNumber()-2}__?search=__${search}__}"></a>
+                </li>
+
+                <li th:if="${page.getNumber() >= 2}" class="waves-effect">
+                    <a th:text="${page.getNumber()-1}"
+                       th:href="@{/admin/subjects/page/__${page.getNumber()-1}__?search=__${search}__}"></a>
+                </li>
+
+                <li th:if="${page.getNumber() >= 1}" class="waves-effect">
+                    <a th:text="${page.getNumber()}"
+                       th:href="@{/admin/subjects/page/__${page.getNumber()}__?search=__${search}__}"></a>
+                </li>
+
+
+                <!-- The active page -->
+                <li class="active">
+                    <a th:text="${page.getNumber()+1}"></a>
+                </li>
+
+
+                <!-- The 3 numbers after the active page -->
+                <li th:if="${page.getNumber()+1 &lt;= page.getTotalPages()-1}" class="waves-effect">
+                    <a th:text="${page.getNumber()+2}"
+                       th:href="@{/admin/subjects/page/__${page.getNumber()+2}__?search=__${search}__}">
+                    </a>
+                </li>
+
+                <li th:if="${page.getNumber()+2 &lt;= page.getTotalPages()-1}" class="waves-effect">
+                    <a th:text="${page.getNumber()+3}"
+                       th:href="@{/admin/subjects/page/__${page.getNumber()+3}__?search=__${search}__}">
+                    </a>
+                </li>
+
+                <li th:if="${page.getNumber()+3 &lt;= page.getTotalPages()-1}" class="waves-effect">
+                    <a th:text="${page.getNumber()+4}"
+                       th:href="@{/admin/subjects/page/__${page.getNumber()+4}__?search=__${search}__}">
+                    </a>
+                </li>
+
+
+                <!-- Only 3 numbers are shown after the active page.
+                     Instead of the hidden numbers we show "…"
+                -->
+                <li th:if="${page.getNumber()+4 &lt; page.getTotalPages()-1}">
+                    <a>…</a>
+                </li>
+
+                <li th:if="${page.getNumber()+4 &lt;= page.getTotalPages()-1}" class="waves-effect">
+                    <a th:text="${page.getTotalPages()}"
+                       th:href="@{/admin/subjects/page/__${page.getTotalPages()}__?search=__${search}__}">
+                    </a>
+                </li>
+
+
+                <!-- Disable the chevron if the last page is active -->
+                <li th:if="${page.isLast()}" class="disabled">
+                    <a>
+                        <i class="material-icons disabled">chevron_right</i>
+                    </a>
+                </li>
+
+                <li th:if="${!page.isLast()}">
+                    <a th:href="@{/admin/subjects/page/__${page.getNumber()+2}__?search=__${search}__}">
+                        <i class="material-icons">chevron_right</i>
+                    </a>
+                </li>
+
+
+            </ul>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Create subject FAB -->
+    <div class="fixed-action-btn hide-on-med-and-up">
+        <a class="btn-floating btn-large amber modal-trigger" href="#create-subject-modal">
+            <i class="large material-icons">add</i>
+        </a>
+    </div>
+
+    <!-- Create subject modal -->
+    <div id="create-subject-modal" class="modal small">
+        <div class="modal-content">
+            <form th:action="@{/admin/subjects/create}" method="post"
+                  id="create-subject-form">
+                <div class="row">
+
+                    <div class="col s12">
+                        <h5 th:text="#{admin.subjects.create.form.header}"></h5>
+                    </div>
+
+                    <div class="input-field col s12">
+                        <input id="name" name="name" type="text" required="required"
+                               th:attr="data-msg-required=#{admin.subjects.create.form.name.error}"/>
+                        <label for="name" th:text="#{admin.subjects.create.form.name}"></label>
+                    </div>
+
+                    <div class="input-field col s12">
+                        <input id="ects" name="ects" type="number" required="required" min="1"
+                               th:attr="data-msg-required=#{admin.subjects.create.form.ects.error}"/>
+                        <label for="ects" th:text="#{admin.subjects.create.form.ects}"></label>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="modal-action waves-effect btn teal"
+               onclick="$('#create-subject-form').submit()"
+               th:text="#{create}"></a>
+            <a href="#" class="modal-action modal-close waves-effect btn-flat"
+               th:text="#{cancel}"></a>
+        </div>
+    </div>
+    
+</main>
+
+<div layout:fragment="scripts">
+    <script type="application/javascript">
+        $("#create-subject-form").validate({
+            errorElement: 'span',
+            validClass: '',
+            errorClass: 'red-text',
+        });
+    </script>
+</div>
+
+</body>
+</html>

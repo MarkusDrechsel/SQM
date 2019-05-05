@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="admin/index">
+<body>
+
+<main layout:fragment="main">
+
+    <div class="container">
+        <h1 th:text="#{admin.semesters.label}"></h1>
+
+        <ul class="collection z-depth-1">
+            <li class="collection-item" th:each="semester : ${allSemesters}">
+                <div th:if="${semester} eq ${currentSemester}">
+                    <strong th:text="${semester.label} + ' ' + #{admin.semesters.current}"></strong>
+                </div>
+                <div th:unless="${semester} eq ${currentSemester}">
+                    <span th:text="${semester.label}"></span>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorator="student/index">
+<body>
+
+<main layout:fragment="main">
+
+    <div class="container">
+
+        <h1 th:text="#{student.nav.mystudyplans}"></h1>
+
+        <div>
+            <ul class="collection z-depth-1">
+
+                <li class="collection-item" th:if="${#lists.isEmpty(studyPlanRegistrations)}" th:text="#{student.studyplan.notfound}"></li>
+
+                <li class="collection-item" th:each="studyPlanRegistration : ${studyPlanRegistrations}">
+                    <div>
+                        <div class="title">
+                            <a class="teal-text" href="#" data-th-href="@{/student/my-studyplans/(id=${studyPlanRegistration.getStudyplan().getId()})}" th:text="${studyPlanRegistration.getStudyplan().getName()}"></a>
+                            <span th:if="${studyPlanRegistration.getStudyplan().enabled}" class="secondary-content"><i class="material-icons tooltipped" th:attr="data-tooltip=#{student.studyplan.enabled}">lock_open</i></span>
+                            <span th:if="${not studyPlanRegistration.getStudyplan().enabled}" class="secondary-content"><i class="material-icons tooltipped" th:attr="data-tooltip=#{student.studyplan.disabled}">lock_outline</i></span>
+                        </div>
+                        <div th:text="#{student.studyplan.since} + ' ' + ${studyPlanRegistration.getRegisteredSince().getLabel()}"></div>
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+</main>
+
+</body>
+</html>

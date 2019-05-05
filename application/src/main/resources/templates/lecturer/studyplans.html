@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorator="lecturer/index">
+<body>
+
+<main layout:fragment="main">
+
+    <div class="container">
+
+        <h1 th:text="#{lecturer.nav.studyplans}"></h1>
+
+        <div>
+
+            <ul class="collection z-depth-1">
+
+                <li class="collection-item" th:if="${#lists.isEmpty(studyPlans)}" th:text="#{lecturer.studyplan.notfound}"></li>
+
+                <li class="collection-item" th:each="studyPlan : ${studyPlans}">
+                    <div>
+                        <div class="title">
+                            <a class="teal-text" href="#" data-th-href="@{/lecturer/studyplans/(id=${studyPlan.id})}" th:text="${studyPlan.name}"></a>
+                            <span th:if="${studyPlan.enabled}" class="secondary-content"><i class="material-icons tooltipped" th:attr="data-tooltip=#{lecturer.studyplan.enabled}">lock_open</i></span>
+                            <span th:if="${not studyPlan.enabled}" class="secondary-content"><i class="material-icons tooltipped" th:attr="data-tooltip=#{lecturer.studyplan.disabled}">lock_outline</i></span>
+                        </div>
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+</main>
+
+</body>
+</html>

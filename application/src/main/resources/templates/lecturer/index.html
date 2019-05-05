@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/main">
+<body>
+
+<ul layout:fragment="nav-items">
+    <li th:class="${#httpServletRequest.requestURI} == '/lecturer/courses' ? 'active' : ''">
+        <a class="white-text" href="/lecturer/courses" th:text="#{lecturer.nav.courses}"></a>
+    </li>
+    <li th:class="${#httpServletRequest.requestURI} == '/lecturer/courses/all' ? 'active' : ''">
+        <a class="white-text" href="/lecturer/courses/all" th:text="#{lecturer.nav.allcourses}"></a>
+    </li>
+    <li th:class="${#httpServletRequest.requestURI} == '/lecturer/subjects' ? 'active' : ''">
+        <a class="white-text" href="/lecturer/subjects" th:text="#{lecturer.nav.subjects}"></a>
+    </li>
+    <li>
+        <div class="divider"></div>
+    </li>
+    <li th:class="${#httpServletRequest.requestURI} == '/lecturer/studyplans' ? 'active' : ''">
+        <a class="white-text" href="/lecturer/studyplans" th:text="#{lecturer.nav.studyplans}"></a>
+    </li>
+</ul>
+
+</body>
+</html>

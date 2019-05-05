@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/main">
+<body>
+
+<ul layout:fragment="nav-items">
+    <li th:class="${#httpServletRequest.requestURI} == '/student/recommended' ? 'active' : ''">
+        <a class="white-text" href="/student/recommended" th:text="#{student.nav.recommended}"></a>
+    </li>
+    <li th:class="${#httpServletRequest.requestURI} == '/student/meineLehrveranstaltungen' ? 'active' : ''">
+        <a class="white-text" href="/student/meineLehrveranstaltungen" th:text="#{student.nav.my.courses}"></a>
+    </li>
+    <li th:class="${#httpServletRequest.requestURI} == '/student/lehrveranstaltungen' ? 'active' : ''">
+        <a class="white-text" href="/student/lehrveranstaltungen" th:text="#{student.nav.courses}"></a>
+    </li>
+    <li th:class="${#httpServletRequest.requestURI} == '/student/grades' ? 'active' : ''">
+        <a class="white-text" href="/student/grades" th:text="#{student.nav.my.grades}"></a>
+    </li>
+    <li th:class="${#httpServletRequest.requestURI} == '/student/my-studyplans' ? 'active' : ''">
+        <a class="white-text" href="/student/my-studyplans"
+           th:text="#{student.nav.mystudyplans}"></a>
+    </li>
+    <li th:class="${#httpServletRequest.requestURI} == '/student/all-studyplans' ? 'active' : ''">
+        <a class="white-text" href="/student/all-studyplans"
+           th:text="#{student.nav.all.studyplans}"></a>
+    </li>
+</ul>
+
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html
+    xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layout/default"
+>
+<body>
+
+<div layout:fragment="content">
+
+    <ul id="slide-out" class="side-nav fixed teal">
+        <li class="logo center white-text"><i class="medium material-icons">school</i></li>
+
+        <li>
+            <ul layout:fragment="nav-items"></ul>
+        </li>
+
+        <li class="divider"></li>
+
+        <li>
+            <a
+                th:if="${#strings.startsWith(#locale, 'en')}"
+                class="white-text language-switcher"
+                data-action="switch-language"
+                data-language="de"
+                href="?lang=de"
+            >
+                English
+            </a>
+
+            <a
+                th:if="${#strings.startsWith(#locale, 'de')}"
+                class="white-text"
+                data-action="switch-language"
+                data-language="en"
+                href="?lang=en"
+            >
+                Deutsch
+            </a>
+
+
+        </li>
+
+        <li>
+            <div class="divider"></div>
+        </li>
+
+        <li>
+            <form id="logout" th:action="@{/logout}" method="post">
+                <button class="white-text link" th:text="#{log.out}" type="submit"></button>
+            </form>
+        </li>
+    </ul>
+
+    <nav class="hide-on-large-only">
+        <div class="nav-wrapper teal">
+            <span class="brand-logo"><i class="material-icons">school</i>UIS</span>
+            <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+        </div>
+    </nav>
+
+    <main layout:fragment="main"></main>
+</div>
+
+</body>
+</html>

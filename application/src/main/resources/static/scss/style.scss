@@ -1,0 +1,282 @@
+body {
+  background-color: #fcfcfc;
+}
+
+header, main, footer {
+  padding-left: 300px;
+}
+
+.login-logo-wrapper {
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  text-align: center;
+
+  color: white;
+
+  pointer-events: none;
+}
+
+#login .row:last-of-type {
+  margin-bottom: 0.75rem;
+}
+
+.side-nav .link {
+  background: none;
+  display: block;
+  padding: 0 16px;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+}
+
+.side-nav .link:hover {
+  background: rgba(0,0,0,0.05);
+}
+
+.side-nav .divider {
+  margin-top: 0;
+}
+
+.logo {
+  padding-top: 30px;
+  cursor: default;
+}
+
+.container {
+  width: 100%;
+  padding: 0 20px;
+  margin: 0;
+}
+
+.collection {
+  overflow: visible;
+}
+
+.subjectlist .subject.succeeded {
+  background: mix(teal, white, 15%);
+}
+
+.courses-list .course-button {
+  margin-top: 4px;
+}
+
+.feedback-content {
+  -ms-word-break: break-all;
+  word-break: break-all;
+
+  // Non standard for WebKit
+  word-break: break-word;
+
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
+}
+
+.default-text {
+  color: rgba(0,0,0,0.87);
+}
+
+h1 {
+  font-size: 2.827rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.414rem;
+}
+
+h4, h5 {
+  font-size: 1.2rem;
+}
+
+.pagination li.active a {
+  background: teal;
+  color: #fff;
+}
+
+.section-separator {
+  margin-top: 32px;
+  color: #757575;
+}
+
+.modal.small {
+  width: 30%;
+  min-width: 500px;
+}
+
+.modal .modal-footer {
+  padding: 24px;
+  padding-top: 0;
+  height: auto;
+}
+
+.modal .modal-footer:after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.modal .modal-footer .btn,
+.modal .modal-footer .btn-large,
+.modal .modal-footer .btn-flat {
+  margin: 0;
+  margin-left: 1rem;
+}
+
+.modal .modal-footer .btn,
+.modal .modal-footer .btn-flat {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.collection-header .main-header {
+  font-size: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+.collection-header .sub-header {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.collection.with-header .collection-item {
+  padding-left: 20px;
+}
+
+.text-content {
+  white-space: pre-wrap;
+}
+
+.vspace {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.collection {
+
+  &.borderless {
+    border: none;
+
+    .collection-item {
+      padding-left: 0;
+    }
+  }
+}
+
+@media only screen and (max-width : 992px) {
+  header, main, footer {
+    padding-left: 0;
+  }
+
+  .container {
+    padding: 16px;
+    margin: 0;
+  }
+
+  .modal.small {
+    width: 90%;
+    min-width: 0;
+    max-width: 500px;
+  }
+}
+
+.input-field label {
+  left: 0;
+}
+
+.add-lecturer-to-subject-form {
+  display: flex;
+}
+
+.add-lecturer-to-subject-form button[type="submit"] {
+  margin-top: 2rem;
+}
+
+.add-lecturer-to-subject-form .ac-appender {
+  display: none;
+}
+
+.add-lecturer-to-subject-form .autocomplete-wrapper {
+  margin-right: 1rem;
+  flex-grow: 1;
+}
+
+// Materialize autocomplete uses .ac-hover instead of .active
+.dropdown-content li.ac-hover {
+  background: #eee;
+}
+
+// typeahead
+.tt-query {
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.tt-hint {
+  color: #999
+}
+
+.tt-menu {    /* used to be tt-dropdown-menu in older versions */
+  width: 422px;
+  margin-top: 4px;
+  padding: 4px 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+  -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+  box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+
+.tt-suggestion {
+  padding: 3px 20px;
+  line-height: 24px;
+}
+
+.tt-suggestion.tt-cursor,.tt-suggestion:hover {
+  color: #fff;
+  background-color: teal;
+
+}
+
+.tt-suggestion p {
+  margin: 0;
+}
+
+.search-exit {
+  position: absolute;
+  right: 1rem;
+  top: 15px;
+  z-index: 1000;
+  padding-right: 1rem;
+  padding-left: 1rem;
+}
+
+// Errors
+.error-content {
+  text-align: center;
+  padding-left: 0;
+}
+
+.error-wrapper {
+  display: inline-block;
+  text-align: left;
+}
+
+.error-huge {
+  font-size: 12.4rem;
+  padding-top: 2rem;
+  margin-bottom: -2rem;
+}
+
+.error-small {
+  font-size: 1.92rem;
+}

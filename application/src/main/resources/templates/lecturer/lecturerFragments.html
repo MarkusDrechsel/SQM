@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+
+<div th:fragment="addAndEdit">
+
+    <input id="tagsData" name="tagsData" type="hidden" th:field="*{tags}"/>
+
+    <div class="col s12">
+        <textarea class="materialize-textarea"
+                  th:field="*{course.description}"
+                  th:placeholder="#{lecturer.addCourse.description}">
+        </textarea>
+    </div>
+
+    <div class="input-field col s12">
+        <input type="number" id="studentLimits"
+               th:field="*{course.studentLimits}">
+            <label for="studentLimits" th:text="#{lecturer.addCourse.studentLimits}"></label>
+        </input>
+    </div>
+
+    <div class="col s12">
+        <button class="btn right" type="submit" th:text="#{lecturer.addCourse.save}">Submit
+        </button>
+    </div>
+</div>
+
+</body>
+</html>

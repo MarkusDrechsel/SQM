@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="student/index">
+<body>
+<main layout:fragment="main">
+
+    <div class="container">
+
+        <h1 th:text="#{student.recommended.label}">Courses</h1>
+
+        <ul class="collection z-depth-1 courses-list">
+            <li class="collection-item" th:each="course, status : ${recommendedCourses}">
+                <div class="secondary-content">
+                    <form method="post" style="display: inline;"
+                          th:action="@{/student/recommended}">
+                        <input type="hidden" th:value="${course.id}" th:name="'dismissedId'"/>
+                        <button
+                            type="submit"
+                            class="btn-flat waves-effect course-button"
+                            th:text="#{dismiss}"
+                        ></button>
+                    </form>
+
+                    <a
+                        th:href="'#modal'+__${course.id}__"
+                        class="modal-trigger btn course-button"
+                        th:text="#{enroll}"
+                    >
+                    </a>
+
+                </div>
+                <a th:href="@{/student/lehrveranstaltungen/__${course.id}__}"
+                   class="title teal-text"
+                   th:text="${course.subject.name}"></a>
+                <div th:text="${course.semester.label} + ', ' + ${course.subject.ects} + ' ECTS'"></div>
+
+                <div th:id="'modal'+__${course.id}__" class="modal small">
+                    <div class="modal-content">
+                        <h5 th:text="${course.subject.name}"></h5>
+                        <h6 th:text="#{student.courses.enroll}"></h6>
+                    </div>
+                    <div class="modal-footer">
+                        <form th:id="'registerForm-' + ${course.id}"
+                              th:action="@{/student/anmelden/__${course.id}__}"
+                              method="post">
+                            <a class="modal-action modal-close btn" th:text="#{enroll}"
+                               th:onclick="'$(\'#registerForm-' + ${course.id} + '\').submit()'"></a>
+                            <a class="modal-action modal-close waves-effect btn-flat"
+                               th:text="#{cancel}"></a>
+                        </form>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+    </div>
+
+</main>
+
+</body>
+</html>

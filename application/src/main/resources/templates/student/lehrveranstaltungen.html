@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="student/index"
+>
+<body>
+<main layout:fragment="main">
+
+    <div class="container">
+
+        <h1 th:text="#{student.courses.label}"></h1>
+
+        <nav>
+            <div class="nav-wrapper white black-text">
+
+                <a
+                    th:unless="${#strings.isEmpty(searchString)}"
+                    th:text="#{search.clear}"
+                    th:href="@{/student/lehrveranstaltungen}"
+                    class="btn btn-flat search-exit"
+                ></a>
+
+                <form>
+                    <div class="input-field">
+                        <input id="search" name="search" th:placeholder="#{student.courses.search}"
+                               th:value="${searchString}"
+                               type="search"/>
+                        <label for="search"><i class="material-icons black-text">search</i></label>
+                    </div>
+                </form>
+            </div>
+        </nav>
+
+        <div
+            class="section-separator"
+            th:if="${#lists.isEmpty(allCourses.getContent())}"
+            th:text="#{student.courses.notfound}"
+        ></div>
+
+        <ul
+            th:unless="${#lists.isEmpty(allCourses.getContent())}"
+            class="collection z-depth-1"
+        >
+
+            <li class="collection-item" th:each="course : ${allCourses.getContent()}">
+                <a
+                    th:href="'#modal'+__${course.id}__"
+                    th:text="#{enroll}"
+                    class="secondary-content modal-trigger btn">
+                </a>
+                <a th:href="@{/student/lehrveranstaltungen/__${course.id}__}"
+                   class="title teal-text"
+                   th:text="${course.subject.name}"></a>
+                <div th:text="${course.semester.label} + ', ' + ${course.subject.ects} + ' ECTS'"></div>
+
+                <div th:id="'modal'+__${course.id}__" class="modal small">
+                    <div class="modal-content">
+                        <h5 class="" th:text="${course.subject.name}"></h5>
+                        <h6 class="" th:text="#{student.courses.enroll}"></h6>
+                    </div>
+                    <div class="modal-footer">
+                        <form
+                            th:id="'registerForm-' + ${course.id}"
+                            th:action="@{/student/anmelden/__${course.id}__}"
+                            method="POST"
+                        >
+                            <button
+                                type="submit"
+                                class="modal-action modal-close btn"
+                                th:text="#{enroll}"
+                            ></button>
+
+                            <a class="modal-action modal-close waves-effect btn-flat" th:text="#{cancel}"></a>
+                        </form>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <!-- Pagination -->
+        <ul th:if="${allCourses.totalPages > 1}" class="pagination center">
+            <li th:if="${allCourses.isFirst()}" class="disabled">
+                <a href="#"><i class="material-icons disabled">chevron_left</i></a>
+            </li>
+            <li th:if="${not allCourses.isFirst()}">
+                <a th:href="@{/student/lehrveranstaltungen(page=__${allCourses.getNumber()-1}__, search=__${searchString}__)}"><i
+                        class="material-icons">chevron_left</i></a>
+            </li>
+
+            <li th:if="${allCourses.getNumber()-4 >= 0}" class="waves-effect">
+                <a th:text="1"
+                   th:href="@{/student/lehrveranstaltungen(page=0, search=__${searchString}__)}"></a>
+            </li>
+            <li th:if="${allCourses.getNumber()-4 > 0}"><a th:text="..."></a></li>
+
+            <li th:if="${allCourses.getNumber()-3 >= 0}" class="waves-effect">
+                <a th:text="${allCourses.getNumber()-2}"
+                   th:href="@{/student/lehrveranstaltungen(page=__${allCourses.getNumber()-3}__, search=__${searchString}__)}"></a>
+            </li>
+            <li th:if="${allCourses.getNumber()-2 >= 0}" class="waves-effect">
+                <a th:text="${allCourses.getNumber()-1}"
+                   th:href="@{/student/lehrveranstaltungen(page=__${allCourses.getNumber()-2}__, search=__${searchString}__)}"></a>
+            </li>
+            <li th:if="${allCourses.getNumber()-1 >= 0}" class="waves-effect">
+                <a th:text="${allCourses.getNumber()}"
+                   th:href="@{/student/lehrveranstaltungen(page=__${allCourses.getNumber()-1}__, search=__${searchString}__)}"></a>
+            </li>
+            <li class="active teal"><a th:text="${allCourses.getNumber()+1}"></a></li>
+            <li th:if="${allCourses.getNumber()+1 &lt;= allCourses.getTotalPages()-1}"
+                class="waves-effect">
+                <a th:text="${allCourses.getNumber()+2}"
+                   th:href="@{/student/lehrveranstaltungen(page=__${allCourses.getNumber()+1}__, search=__${searchString}__)}"></a>
+            </li>
+            <li th:if="${allCourses.getNumber()+2 &lt;= allCourses.getTotalPages()-1}"
+                class="waves-effect">
+                <a th:text="${allCourses.getNumber()+3}"
+                   th:href="@{/student/lehrveranstaltungen(page=__${allCourses.getNumber()+2}__, search=__${searchString}__)}"></a>
+            </li>
+            <li th:if="${allCourses.getNumber()+3 &lt;= allCourses.getTotalPages()-1}"
+                class="waves-effect">
+                <a th:text="${allCourses.getNumber()+4}"
+                   th:href="@{/student/lehrveranstaltungen(page=__${allCourses.getNumber()+3}__, search=__${searchString}__)}"></a>
+            </li>
+
+            <li th:if="${allCourses.getNumber()+4 &lt; allCourses.getTotalPages()-1}"><a
+                    th:text="..."></a></li>
+            <li th:if="${allCourses.getNumber()+4 &lt;= allCourses.getTotalPages()-1}"
+                class="waves-effect">
+                <a th:text="${allCourses.getTotalPages()}"
+                   th:href="@{/student/lehrveranstaltungen(page=__${allCourses.getTotalPages()-1}__, search=__${searchString}__)}"></a>
+            </li>
+            <li th:if="${allCourses.isLast()}" class="disabled">
+                <a href="#"><i class="material-icons">chevron_right</i></a>
+            </li>
+            <li th:if="${!allCourses.isLast()}">
+                <a th:href="@{/student/lehrveranstaltungen(page=__${allCourses.getNumber()+1}__, search=__${searchString}__)}"><i
+                        class="material-icons">chevron_right</i></a>
+            </li>
+        </ul>
+
+    </div>
+
+</main>
+
+</body>
+</html>
